@@ -9,9 +9,9 @@ public class VariableMap {
 	 * Port 0 - Drive Left
 	 * Port 1 - Drive Right
 	 * Port 2 - Arm Pivot
-	 * Port 3 - Arm Obstacle Roller
-	 * Port 4 - Arm Intake Roller 
-	 * Port 5 - 
+	 * Port 3 - Arm Obstacle Roller Front
+	 * Port 4 - Arm Obstacle Roller Back
+	 * Port 5 - Arm Intake Roller 
 	 * Port 6 - 
 	 * Port 7 - 
 	 * Port 8 - 
@@ -20,8 +20,9 @@ public class VariableMap {
 	public static final int PWM_DRIVE_LEFT = 0;
 	public static final int PWM_DRIVE_RIGHT = 1;
 	public static final int PWM_ARM = 2;
-	public static final int PWM_OBSROLLER = 3;
-	public static final int PWM_INTAKE = 4;
+	public static final int PWM_OBSROLLER1 = 3;
+	public static final int PWM_OBSROLLER2 = 4;
+	public static final int PWM_INTAKE = 5;
 	
 	/*
 	 * PCM Modules

@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.*;
 public class Armsystem {
 
 	Talon pivot;
-	Talon obstacleroller;
+	Talon obstacleroller1,obstacleroller2;
 	Talon intake;
 	DigitalInput forwardlimit;
 	DigitalInput backwardlimit;
@@ -14,9 +14,10 @@ public class Armsystem {
 	PIDController pidPivot;
 
 	//armPivot, armObstacleRoller, armIntake, armLimitForward, armLimitBackward, armBallIn, armPotPivot, armPID);
-	public Armsystem(Talon p, Talon roll, Talon in, DigitalInput lf, DigitalInput lb,  DigitalInput bi, AnalogInput app, PIDController apid) {
+	public Armsystem(Talon p, Talon roll1, Talon roll2, Talon in, DigitalInput lf, DigitalInput lb,  DigitalInput bi, AnalogInput app, PIDController apid) {
 		pivot = p;
-		obstacleroller = roll;
+		obstacleroller1 = roll1;
+		obstacleroller2 = roll2;
 		intake = in;
 
 		//NEED TO SET UP LIMIT SWITCHES, ANALOG IN, CONTROLLER - CHECK THIS
@@ -28,10 +29,10 @@ public class Armsystem {
 	}
 
 	public void setIntakeIn(double power) {
-		if (!ballin.get()){
+		//if (!ballin.get()){
 			intake.set(power);
 			//swap signs with setIntakeOut if direction is reversed
-		}
+		//}
 	}
 	public void setIntakeOut(double power) {
 		intake.set(-power);
@@ -45,15 +46,18 @@ public class Armsystem {
 
 	public void setRollerForward(double power) {
 		
-		obstacleroller.set(power);
+		obstacleroller1.set(power);
+		obstacleroller2.set(-power);
 		//swap signs with setRollerBackward if direction is reversed
 	}
 	public void setRollerBackward(double power) {
-		obstacleroller.set(-power);
+		obstacleroller1.set(-power);
+		obstacleroller2.set(power);
 		//swap signs with setRollerForward if direction is reversed
 	}
 	public void stopRoller() {
-		obstacleroller.set(0.0);
+		obstacleroller1.set(0.0);
+		obstacleroller2.set(0.0);
 	}
 
 

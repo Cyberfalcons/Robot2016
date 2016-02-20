@@ -22,6 +22,7 @@ public class Robot extends IterativeRobot {
     final String defaultAuto = "Default";
     final String customAuto = "My Auto";
     String autoSelected;
+    
 
     
     
@@ -31,8 +32,8 @@ public class Robot extends IterativeRobot {
 
 	
 	// Controller and Sensor
-	Talon driveRightTalon, driveLeftTalon, armPivot, armObstacleRoller, armIntake;
-	Joystick jsLeft, jsRight;
+	Talon driveRightTalon, driveLeftTalon, armPivot, armObstacleRoller1,armObstacleRoller2, armIntake;
+	Controller driverControl, operatorControl;
 	Encoder encDriveLeft, encDriveRight;
 	PIDController driveLeftPID, driveRightPID, armPID;
 	DigitalInput armLimitForward, armLimitBackward, armBallIn;
@@ -43,8 +44,8 @@ public class Robot extends IterativeRobot {
 	
     public void robotInit() {
     	//INPUT DEVICES
-    	jsLeft = new Joystick(1);
-    	jsRight = new Joystick(2);
+    	driverControl = new JoystickControllerWrapper(0, 1);
+		operatorControl = new XBoxControllerWrapper(2);
     	
     	//DRIVETRAIN
         driveLeftTalon=new Talon(VariableMap.PWM_DRIVE_LEFT);
@@ -58,7 +59,8 @@ public class Robot extends IterativeRobot {
 		
 		//ARM
 		armPivot = new Talon(VariableMap.PWM_ARM);
-		armObstacleRoller = new Talon(VariableMap.PWM_OBSROLLER);
+		armObstacleRoller1 = new Talon(VariableMap.PWM_OBSROLLER1);
+		armObstacleRoller2 = new Talon(VariableMap.PWM_OBSROLLER2);
 		armIntake = new Talon (VariableMap.PWM_INTAKE);
  
 		armLimitForward = new DigitalInput(VariableMap.DIO_LIM_ARM_EXTENDED);
@@ -72,7 +74,7 @@ public class Robot extends IterativeRobot {
 		
 		//SYSTEMS
 		drive = new Drivetrain(driveLeftTalon, driveRightTalon, encDriveLeft, encDriveRight, driveLeftPID, driveRightPID);
-		arm = new Armsystem(armPivot, armObstacleRoller, armIntake, armLimitForward, armLimitBackward, armBallIn, armPotPivot, armPID);
+		arm = new Armsystem(armPivot, armObstacleRoller1,armObstacleRoller2, armIntake, armLimitForward, armLimitBackward, armBallIn, armPotPivot, armPID);
 		pdp = new PowerDistributionPanel();
 		timer = new Timer();		
     }
@@ -135,14 +137,14 @@ public class Robot extends IterativeRobot {
     public void doDrive() {
 		//power of three to make slow speeds more controllable 
 		//(big joystick change for small tweaks in speed)
-		drive.setDriveLeft((-1)*Math.pow(jsLeft.getY(),3));
-		drive.setDriveRight(Math.pow(jsRight.getY(),3));
+		drive.setDriveLeft((-1)*Math.pow(driverControl.getLeftY(),3));
+		drive.setDriveRight(Math.pow(driverControl.getRightY(),3));
 	}
 	public void doArm() {
 		//Run arm pivot - no PID.
-		if (jsRight.getRawButton(3)){
+		if (driverControl.getLeftButton2()){
 			arm.setArmPivotForward(0.5);
-		} else if (jsRight.getRawButton(4)){
+		} else if (driverControl.getLeftButton3()){
 			arm.setArmPivotBackward(0.5);
 		} else {
 			arm.stopArmPivot();
@@ -154,18 +156,18 @@ public class Robot extends IterativeRobot {
 		// NO IDEA ABOUT BUTTON MAPPING HERE - USE DRIVERS STATION INTERFACE TO DECIDE WHAT YOU LIKE
 		
 		//Run obstacle roller - buttons on left joystick
-		if (jsLeft.getRawButton(3)){
+		if (driverControl.getRightButton3()){
 			arm.setRollerForward(1);
-		} else if (jsLeft.getRawButton(4)){
+		} else if (driverControl.getRightButton2()){
 			arm.setRollerBackward(1);
 		} else {
 			arm.stopRoller();
 		}
 		
 		//Run intake - triggers on left and right joystick suggested
-		if (jsLeft.getRawButton(9)){
+		if (driverControl.getLeftButton1()){
 			arm.setIntakeIn(1);
-		} else if (jsRight.getRawButton(9)){
+		} else if (driverControl.getRightButton1()){
 			arm.setIntakeOut(1);
 		} else {
 			arm.stopIntake();
