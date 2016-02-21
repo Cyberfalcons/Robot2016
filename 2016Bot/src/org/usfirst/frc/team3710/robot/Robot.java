@@ -2,34 +2,15 @@
 package org.usfirst.frc.team3710.robot;
 
 import edu.wpi.first.wpilibj.*;
-/**
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-*/
-
-
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the IterativeRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the manifest file in the resource
- * directory.
- */
 
 public class Robot extends IterativeRobot {
     final String defaultAuto = "Default";
     final String customAuto = "My Auto";
     String autoSelected;
     
-
-    
-    
 	//Initialize system classes as instances of the classes
 	Drivetrain drive;
 	Armsystem arm;
-
 	
 	// Controller and Sensor
 	Talon driveRightTalon, driveLeftTalon, armPivot, armObstacleRoller1,armObstacleRoller2, armIntake;
@@ -71,7 +52,6 @@ public class Robot extends IterativeRobot {
 		
 		armBallIn = new DigitalInput(VariableMap.DIO_LIM_BALL);
 		
-		
 		//SYSTEMS
 		drive = new Drivetrain(driveLeftTalon, driveRightTalon, encDriveLeft, encDriveRight, driveLeftPID, driveRightPID);
 		arm = new Armsystem(armPivot, armObstacleRoller1,armObstacleRoller2, armIntake, armLimitForward, armLimitBackward, armBallIn, armPotPivot, armPID);
@@ -79,22 +59,10 @@ public class Robot extends IterativeRobot {
 		timer = new Timer();		
     }
     
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select between different autonomous modes
-	 * using the dashboard. The sendable chooser code works with the Java SmartDashboard. If you prefer the LabVIEW
-	 * Dashboard, remove all of the chooser code and uncomment the getString line to get the auto name from the text box
-	 * below the Gyro
-	 *
-	 * You can add additional auto modes by adding additional comparisons to the switch structure below with additional strings.
-	 * If using the SendableChooser make sure to add them to the chooser code above as well.
-	 */
     public void autonomousInit() {
 
     }
 
-    /**
-     * This function is called periodically during autonomous
-     */
     public void autonomousPeriodic() {
     	/**
     	switch(autoSelected) {
@@ -109,18 +77,12 @@ public class Robot extends IterativeRobot {
     	*/
     }
 
-    
-    
-    
     public void teleopInit() {
 		timer.stop();
 		drive.disableLeftPIDControl();
 		drive.disableRightPIDControl();
 	}
 
-    /**
-     * This function is called periodically during operator control
-     */
     public void teleopPeriodic() {
     	doDrive();
 		doArm();
@@ -128,18 +90,17 @@ public class Robot extends IterativeRobot {
         
     }
     
-    /**
-     * This function is called periodically during test mode
-     */
     public void testPeriodic() {
     
     }
+    
     public void doDrive() {
 		//power of three to make slow speeds more controllable 
 		//(big joystick change for small tweaks in speed)
 		drive.setDriveLeft((-1)*Math.pow(driverControl.getLeftY(),3));
 		drive.setDriveRight(Math.pow(driverControl.getRightY(),3));
 	}
+    
 	public void doArm() {
 		//Run arm pivot - no PID.
 		if (driverControl.getLeftButton2()){
@@ -149,9 +110,8 @@ public class Robot extends IterativeRobot {
 		} else {
 			arm.stopArmPivot();
 		}
-		
-		
 	}
+	
 	public void doRollers() {
 		// NO IDEA ABOUT BUTTON MAPPING HERE - USE DRIVERS STATION INTERFACE TO DECIDE WHAT YOU LIKE
 		
@@ -172,6 +132,5 @@ public class Robot extends IterativeRobot {
 		} else {
 			arm.stopIntake();
 		}
-
 	}
 }

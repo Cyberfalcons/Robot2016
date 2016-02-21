@@ -45,7 +45,6 @@ public class Armsystem {
 
 
 	public void setRollerForward(double power) {
-		
 		obstacleroller1.set(power);
 		obstacleroller2.set(-power);
 		//swap signs with setRollerBackward if direction is reversed
@@ -59,8 +58,6 @@ public class Armsystem {
 		obstacleroller1.set(0.0);
 		obstacleroller2.set(0.0);
 	}
-
-
 	
 	//Passes a sensor setpoint to the PID controller so the motor tries to achieve the setpoint
 	public void setPIDPivot(int position){
@@ -92,9 +89,7 @@ public class Armsystem {
 	
 
 	
-	/**
-
-
+	/*
 	public int getEncoder() {
 		return encLeft.get();
 	}

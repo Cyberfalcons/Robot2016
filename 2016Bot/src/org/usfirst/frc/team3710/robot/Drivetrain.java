@@ -35,12 +35,12 @@ public class Drivetrain {
 
 	//Sets the right side drive to a certain speed
 	public void setDriveRight(double power) {
-		rightA.set((power / 0.85));
+		rightA.set((power * VariableMap.SPEED_MODIFIER));
 	}
 
 	//Sets the left side drive to a certain speed
 	public void setDriveLeft(double power) {
-		leftA.set((power / 0.85));
+		leftA.set((power * VariableMap.SPEED_MODIFIER));
 	}
 	
 	//Passes a encoder setpoint to the left side PID controller so that the drive train will get the robot there
