@@ -85,8 +85,8 @@ public class Robot extends IterativeRobot {
 
     public void teleopPeriodic() {
     	doDrive();
-		doArm();
-		doRollers();
+	doArm();
+	doRollers();
         
     }
     
